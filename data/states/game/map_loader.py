@@ -26,15 +26,15 @@ def option_load(path: str):
                         # single note
                         if len(line) == 3:
                             options[last_title][note_counter]["type"] = "single"
-                            options[last_title][note_counter]["name1"] = line[0]
+                            options[last_title][note_counter]["sound_name1"] = line[0]
                             options[last_title][note_counter]["end_timing1"] = line[1]
                             options[last_title][note_counter]["side"] = line[2]
                             note_counter += 1
                         # slider note
                         elif len(line) == 5:
-                            options[last_title]["type"] = dict.fromkeys(["type"], "slider")
-                            options[last_title][note_counter]["name1"] = line[0]
-                            options[last_title][note_counter]["name2"] = line[1]
+                            options[last_title][note_counter]["type"] = "slider"
+                            options[last_title][note_counter]["sound_name1"] = line[0]
+                            options[last_title][note_counter]["sound_name2"] = line[1]
                             options[last_title][note_counter]["end_timing1"] = line[2]
                             options[last_title][note_counter]["end_timing2"] = line[3]
                             options[last_title][note_counter]["side"] = line[4]
@@ -43,4 +43,9 @@ def option_load(path: str):
         return options
     else:
         return None
-    
+
+
+
+
+if __name__ == "__main__":
+    pass
