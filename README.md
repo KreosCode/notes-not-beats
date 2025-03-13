@@ -62,7 +62,7 @@
     - top / bottom / left / right 
     - side, where the note / slider will appear  
 
-*Note*: All notes are being written in the order from the first one to the last one 
+*Note*: All notes are being written in the order from the first one to the last one<br>
 expression1<br>
 expression2<br>
 expression3<br>
