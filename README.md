@@ -14,7 +14,7 @@
     - str
     - if image: suported formats: png, jpeg 
     - if video: suported formats: mp4 
-    - *Note*: image file need to be included anyway (nameOfImage || nameOfImage_nameOfVideo) 
+*Note*: image file need to be included anyway (nameOfImage || nameOfImage_nameOfVideo) 
 
 **[Difficulty]**
 - hp_drain
@@ -45,7 +45,7 @@
     - name1 is prerequisite, name2 is optional 
     - If you writing only one name, then you put a simple note 
     - Writing two notes means that name1 is the start of the slider note and name2 is end of slider note 
-    - *Note*: if 'pause' value's provided instead of any of notes, then note will appear without any sound 
+*Note*: if 'pause' value's provided instead of any of notes, then note will appear without any sound 
 
 - endTiming1 
     - int 
@@ -62,9 +62,9 @@
     - top / bottom / left / right 
     - side, where the note / slider will appear  
 
-All notes are being written in the order from the first one to the last one 
-expression1 
-expression2 
-expression3  
-...
+*Note*: All notes are being written in the order from the first one to the last one 
+expression1<br>
+expression2<br>
+expression3<br>
+...<br>
 expressionLast
