@@ -1,10 +1,10 @@
 # notes-not-beats
 ## mapping guide
 > [General]
-> - song_name
-> str
-> supported formats: mp3
-> name of the file, that contains song
+> - song_name<br>
+> str<br>
+> supported formats: mp3<br>
+> name of the file, that contains song<br>
 
 -  bg_type
 str <br>
