@@ -2,9 +2,9 @@
 ## mapping guide
 [General]
 - song_name
-str
-supported formats: mp3
-name of the file, that contains song.
+- - str
+- - supported formats: mp3
+- - name of the file, that contains song.
 
 -  bg_type
 str
