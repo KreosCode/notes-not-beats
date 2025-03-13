@@ -1,20 +1,20 @@
 # notes-not-beats
 ## mapping guide
-> [General]
-> - song_name<br>
-> str<br>
-> supported formats: mp3<br>
-> name of the file, that contains song<br>
+[General]
+- song_name
+    - str
+    - supported formats: mp3
+    - name of the file, that contains song
 
--  bg_type
-str <br>
-video, image, None <br>
+- bg_type
+    - str
+    - video, image, None
 
 - bg_name
-str <br>
-if image: suported formats: png, jpeg <br>
-if video: suported formats: mp4 <br>
-Note: image file need to be included anyway (nameOfImage || nameOfImage_nameOfVideo) <br>
+    - str
+    - if image: suported formats: png, jpeg <br>
+    - if video: suported formats: mp4 <br>
+    - Note: image file need to be included anyway (nameOfImage || nameOfImage_nameOfVideo) <br>
 
 [Difficulty]
 - hp_drain <br>
