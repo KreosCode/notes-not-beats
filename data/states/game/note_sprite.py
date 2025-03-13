@@ -6,6 +6,6 @@ class Note(pygame.sprite.Sprite):
         self.__dict__.update(timings)
 
         if type == "single":
-            self.image = 
+            self.image = pygame.image.load("src/sprites/note.png").convert_alpha()
         if type == "slider":
             pass
