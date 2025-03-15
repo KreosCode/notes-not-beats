@@ -4,7 +4,7 @@ from .center_indicator_sprite import CenterIndicator
 from .note_catcher_sprite import NoteCatcher
 from .note_lane_sprite import NoteLane
 from .note_sprite import Note
-import config_loader as cl
+from . import config_loader
 
 class Game(States):
     def __init__(self):
@@ -14,10 +14,10 @@ class Game(States):
         self.countdown_time = 0 # seconds needed to start the main game
         self.bg_color = "#010203" # bg color
 
-        self.countdown_started = False # show state of countdown
-        self.time_get = False # helps to take current time only one time
-        self.game_state = False # show state of main game (gameplay)
-        self.bg_get = False # helps to get bg sizes only one time
+        self.countdown_started = False #  state of countdown
+        self.time_get = False # help to take current time only one time
+        self.game_state = False # state of main game (gameplay)
+        self.bg_get = False # help to get bg sizes only one time
 
         # sprites
         self.center_indicator = None # referring to group single
@@ -39,6 +39,7 @@ class Game(States):
         self.time_get = False
         self.game_state = False
         self.bg_get = False
+        self.song_config = None
 
         # sprite clear (rewrite it to separate func)
         self.center_indicator = None
@@ -49,6 +50,8 @@ class Game(States):
 
     def startup(self):
         pygame.mouse.set_visible(False)
+
+        self.song_config = config_loader.option_load("songs/Onoken - Sagashi Mono/sagashi_mono.nnb", True)
         self.countdown_started = True
 
     def bg_assign(self):
@@ -127,7 +130,7 @@ class Game(States):
             self.sprite_assign(screen)
 
     def main_game_draw(self, screen, dt):
-        self.sprite_draw(screen)            
+        self.sprite_draw(screen, dt)
 
     def get_event(self, event):
         if event.type == pygame.KEYDOWN:
