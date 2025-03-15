@@ -39,9 +39,6 @@ class Button(pygame.sprite.Sprite):
             else:
                 self.image = self.button_surf
                 self.audio_state = False
-    def fade(self):
-        while (self.image.get_alpha() > 0):
-            self.image.set_alpha(int(self.image.get_alpha() - self.image.get_alpha() / (self.clicked_sound.get_length() + 1)))
 
     def get_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:

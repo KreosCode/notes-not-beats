@@ -29,7 +29,6 @@ class Menu(States):
                 sprite.quit = False
                 self.quit = True
             elif sprite.play == True:
-                sprite.fade() # not working working
                 self.done = True
                 sprite.play = False
 
