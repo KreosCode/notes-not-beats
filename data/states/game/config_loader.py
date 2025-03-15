@@ -5,7 +5,7 @@ making dict by splitting options with each [option]
 """
 REWRITE IT
 """
-def option_load(path: str, loadnotes: False):
+def option_load(path: str, loadnotes = False):
     options = {}
     note_counter = 0
     with open(path, "r") as f:
@@ -46,4 +46,4 @@ def option_load(path: str, loadnotes: False):
         return None
 
 if __name__ == "__main__":
-    print(option_load("../../../songs/Onoken - Sagashi Mono/sagashi_mono.nnb", True))
+    print(option_load("../../../songs/Onoken - Sagashi Mono/sagashi_mono.nnb"))
