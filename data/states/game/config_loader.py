@@ -2,9 +2,7 @@
 making dict by splitting options with each [option]
 """
 
-"""
-REWRITE IT
-"""
+# REWRITE IT
 def option_load(path: str, loadnotes = False):
     options = {}
     note_counter = 0

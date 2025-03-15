@@ -3,6 +3,8 @@ from ...state import States
 from .center_indicator_sprite import CenterIndicator
 from .note_catcher_sprite import NoteCatcher
 from .note_lane_sprite import NoteLane
+from .note_sprite import Note
+import config_loader as cl
 
 class Game(States):
     def __init__(self):
