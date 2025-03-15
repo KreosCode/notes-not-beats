@@ -15,14 +15,16 @@ class Game(States):
         self.bg_color = "#010203" # bg color
 
         self.countdown_started = False #  state of countdown
-        self.time_get = False # help to take current time only one time
+        self.time_get = False # help to take current time only one time (need for countdown)
         self.game_state = False # state of main game (gameplay)
         self.bg_get = False # help to get bg sizes only one time
+        self.song_started = False # help to start song only one time
 
         # sprites
         self.center_indicator = None # referring to group single
         self.note_lane = None # referring to group single
         self.note_catcher_sprites = pygame.sprite.Group() # referring to sprites group
+        self.note_sprites = pygame.sprite.Group() # referring to sprites group
         self.sprites_assigned = False # show if sprites assigned
 
         # keybinginds
@@ -39,19 +41,21 @@ class Game(States):
         self.time_get = False
         self.game_state = False
         self.bg_get = False
-        self.song_config = None
 
         # sprite clear (rewrite it to separate func)
         self.center_indicator = None
         self.sprites_assigned = False
         self.note_catcher_sprites.empty()
+        self.note_sprites.empty()
 
+        # SUBJECT TO CHANGE
+        self.song_started = False
+        self.song.stop()
+        
         pygame.mouse.set_visible(True)
 
-    def startup(self, dt):
+    def startup(self):
         pygame.mouse.set_visible(False)
-
-        self.song_config = config_loader.option_load("songs/Onoken - Sagashi Mono/sagashi_mono.nnb", True)
         self.countdown_started = True
 
     def bg_assign(self):
@@ -88,9 +92,9 @@ class Game(States):
             if self.sprites_assigned:
                 screen.blits([(self.bg_horizontal_surf, self.bg_horizontal_coords), (self.bg_vertical_surf, self.bg_vertical_coords)])
 
-    def sprite_assign(self, screen):
-        if not self.sprites_assigned:
-
+    def sprite_assign(self, screen, dt):
+        if not self.sprites_assigned: 
+            # catchers + center
             if self.center_indicator is None:
 
                 self.center_indicator = pygame.sprite.GroupSingle(CenterIndicator(screen))
@@ -107,16 +111,21 @@ class Game(States):
                                           NoteCatcher("right", **center_params),
                                           NoteCatcher("top", **center_params),
                                           NoteCatcher("bottom", **center_params))
-        
-
-
-                    # # for bg draw
-                    # self.note_catcher_sprites_size = (note_catcher_sides["right"].rect.centerx - note_catcher_sides["left"].rect.centerx,
-                    #                                   note_catcher_sides["bottom"].rect.centery - note_catcher_sides["top"].rect.centery)
-                    # self.blit_coords = (note_catcher_sides["left"].rect.centerx, note_catcher_sides["top"].rect.centery)
-
+            # note lane
             if self.note_lane is None:
                 self.note_lane = pygame.sprite.GroupSingle(NoteLane(screen))
+            # notes
+            if not self.note_sprites.sprites():
+                song_config = config_loader.option_load("songs/Onoken - Sagashi Mono/sagashi_mono.nnb", True)
+                if song_config is not None:
+                    for key, value in song_config["[NoteTimings]"].items():
+                        side = song_config["[NoteTimings]"][key]["side"]
+                        for sprite in self.note_catcher_sprites.sprites():
+                            if sprite.type == side:
+                                catcher = sprite.rect
+                        self.note_sprites.add(Note(dt, screen, catcher, **{f"{key}": value}))
+                else: 
+                    print("error, no note timings provided")
 
             self.sprites_assigned = True
     
@@ -125,12 +134,21 @@ class Game(States):
             self.note_lane.draw(screen)
             self.sprite_bg(screen)
             self.center_indicator.draw(screen)
+            self.note_sprites.draw(screen)
             self.note_catcher_sprites.draw(screen)
         else:
-            self.sprite_assign(screen)
+            self.sprite_assign(screen, dt)
+
+    def play_song(self):
+        if not self.song_started:
+            self.song = pygame.mixer.Sound("songs/Onoken - Sagashi Mono/sagashi_mono.mp3")
+            self.song.set_volume(0.2)
+            self.song.play()
+            self.song_started = True
 
     def main_game_draw(self, screen, dt):
         self.sprite_draw(screen, dt)
+        self.play_song()
 
     def get_event(self, event):
         if event.type == pygame.KEYDOWN:
@@ -179,6 +197,10 @@ class Game(States):
         
         if self.game_state:
             self.main_game_draw(screen, dt)
+            self.note_sprites.update()
+            # TEMPORARY
+            pygame.sprite.groupcollide(self.note_sprites, self.center_indicator, dokilla = True, dokillb = False)
+            # TEMPORARY
 
         if self.countdown_started:
             self.countdown(screen, pygame.time.get_ticks() / 1000)
