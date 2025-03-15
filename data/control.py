@@ -37,7 +37,7 @@ class Control:
             
     def main_game_loop(self):
         while not self.done:
-            delta_time = self.clock.tick(self.fps) / 1000.0
+            delta_time = self.clock.tick(self.fps)
             self.event_loop()
             self.update(delta_time)
             pygame.display.update()

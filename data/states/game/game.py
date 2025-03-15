@@ -115,7 +115,7 @@ class Game(States):
 
             self.sprites_assigned = True
     
-    def sprite_draw(self, screen):
+    def sprite_draw(self, screen, dt):
         if self.sprites_assigned:
             self.note_lane.draw(screen)
             self.sprite_bg(screen)
@@ -124,7 +124,7 @@ class Game(States):
         else:
             self.sprite_assign(screen)
 
-    def main_game_draw(self, screen):
+    def main_game_draw(self, screen, dt):
         self.sprite_draw(screen)            
 
     def get_event(self, event):
@@ -173,7 +173,7 @@ class Game(States):
         self.draw(screen)
         
         if self.game_state:
-            self.main_game_draw(screen)
+            self.main_game_draw(screen, dt)
 
         if self.countdown_started:
             self.countdown(screen, pygame.time.get_ticks() / 1000)
