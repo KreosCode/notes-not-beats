@@ -48,7 +48,7 @@ class Game(States):
 
         pygame.mouse.set_visible(True)
 
-    def startup(self):
+    def startup(self, dt):
         pygame.mouse.set_visible(False)
 
         self.song_config = config_loader.option_load("songs/Onoken - Sagashi Mono/sagashi_mono.nnb", True)
