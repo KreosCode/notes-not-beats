@@ -90,7 +90,7 @@ class Game(States):
             self.bg_assign()
         else:
             if self.sprites_assigned:
-                pass
+                screen.blits([(self.bg_horizontal_surf, self.bg_horizontal_coords), (self.bg_vertical_surf, self.bg_vertical_coords)])
 
     def sprite_assign(self, screen, dt):
         if not self.sprites_assigned: 
