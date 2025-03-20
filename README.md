@@ -55,7 +55,7 @@
 - endTiming2 
     - int 
     - input in ms 
-    - perfect timing for the note2 to be pressed 
+    - perfect timing for the note2(end of slider) to be pressed 
 
 - side 
     - str 
