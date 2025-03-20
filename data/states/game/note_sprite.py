@@ -1,7 +1,7 @@
 import pygame
 
 class Note(pygame.sprite.Sprite):
-    def __init__(self, dt, screen: pygame.surface.Surface, catcher: pygame.rect.Rect, path_length, **timings):
+    def __init__(self, dt, screen: pygame.surface.Surface, catcher: pygame.rect.Rect, **timings):
         """
         types of timings kwargs:
         note) 1: {'type': 'single', 'sound_name1': 'soft-hitwhistle2.wav', 'end_timing1': '2660', 'side': 'top'}
@@ -15,11 +15,21 @@ class Note(pygame.sprite.Sprite):
         # end_timing1 of next object has to be more then end_timing2 (if slider)/end_timing1 (if single)
 
         self.start_pos = (0, 0)
-        px_per_frame = 2
+        self.pixel_per_frame = 2
         ms_per_frame = dt
-        self.speed = px_per_frame/ms_per_frame
-        start_timing = self.end_timing1 - path_length / self.speed # shows the timing when note has to be on the start of its lane
+        self.speed = self.pixel_per_frame/ms_per_frame
 
+        # path_length and start_timing assign
+        # !!!!!!!!!!!!!
+        # CHANGE IT LATER
+        if self.side in ("left", "right"):
+            path_length = 890 
+        elif self.side in ("top", "bottom"):
+            path_length = 470
+        start_timing = self.end_timing1 - path_length / self.speed # shows the timing when note has to be on the start of its lane
+        # CHANGE IT LATER
+        # !!!!!!!!!!!!!
+        
         # single note assign
         if self.type == "single":
             self.image = pygame.image.load("src/sprites/note.png").convert_alpha()
@@ -44,15 +54,15 @@ class Note(pygame.sprite.Sprite):
             slider_head = pygame.image.load("src/sprites/slider_head.png").convert_alpha()
 
             if self.side in ("left", "right"):
-                slider_body = pygame.transform.rotate(slider_body, 90)
+                slider_body = pygame.transform.rotate(slider_body, 90).convert_alpha()
                 slider_body_length = (self.end_timing2 - self.end_timing1) * self.speed - slider_head.get_height()
-                slider_body = pygame.transform.scale(slider_body, (slider_head.get_height() + slider_body_length, slider_body.get_height()))
+                slider_body = pygame.transform.scale(slider_body, (slider_head.get_height() + slider_body_length, slider_body.get_height())).convert_alpha()
 
                 self.image = pygame.surface.Surface((slider_head.get_height() + slider_body.get_width() + slider_start.get_width() / 2,
-                                                     slider_start.get_height()))
+                                                     slider_start.get_height())).convert_alpha()
 
                 if self.side == "left":
-                    slider_head = pygame.transform.rotate(slider_head, 90)
+                    slider_head = pygame.transform.rotate(slider_head, 90).convert_alpha()
                     self.image.blits(((slider_head, (0, 0)),
                                       (slider_body, (slider_head.get_width(), 0)),
                                       (slider_start, (slider_head.get_width() + slider_body.get_width() - slider_start.get_width() / 2, 0))))
@@ -60,7 +70,7 @@ class Note(pygame.sprite.Sprite):
                                       catcher.y)
                 
                 if self.side == "left":
-                    slider_head = pygame.transform.rotate(slider_head, -90)
+                    slider_head = pygame.transform.rotate(slider_head, -90).convert_alpha()
                     self.image.blits(((slider_start, (0, 0)),
                                       (slider_body, (slider_start.get_width() / 2, 0)),
                                       (slider_head, (slider_start.get_width() / 2 + slider_body.get_width(), 0))))
@@ -69,10 +79,10 @@ class Note(pygame.sprite.Sprite):
                
             elif self.side in ("top", "bottom"):
                 slider_body_length = (self.end_timing2 - self.end_timing1) * self.speed - slider_head.get_height()
-                slider_body = pygame.transform.scale(slider_body, (slider_body.get_width(), slider_body_length))
+                slider_body = pygame.transform.scale(slider_body, (slider_body.get_width(), slider_body_length)).convert_alpha()
 
                 self.image = pygame.surface.Surface((slider_start.get_width(), 
-                                                     slider_head.get_height() + slider_body.get_height() + slider_start.get_height() / 2))
+                                                     slider_head.get_height() + slider_body.get_height() + slider_start.get_height() / 2)).convert_alpha()
 
                 if self.side == "top":
                     self.image.blits(((slider_head, (0, 0)),
@@ -82,7 +92,7 @@ class Note(pygame.sprite.Sprite):
                                  -self.image.get_height() - start_timing * self.speed)
 
                 elif self.side == "bottom":
-                    slider_head = pygame.transform.flip(slider_head, False, True)
+                    slider_head = pygame.transform.flip(slider_head, False, True).convert_alpha()
                     self.image.blits(((slider_start, (0, 0)),
                                      (slider_body, (0, slider_start.get_height() / 2)),
                                      (slider_head, (0, slider_start.get_height() / 2 + slider_body.get_height()))))
@@ -96,13 +106,13 @@ class Note(pygame.sprite.Sprite):
             
     def move(self):
         if self.side == "left":
-            self.rect.x += self.speed
+            self.rect.x += self.pixel_per_frame
         if self.side == "right":
-            self.rect.x -= self.speed
+            self.rect.x -= self.pixel_per_frame
         if self.side == "top":
-            self.rect.y += self.speed
+            self.rect.y += self.pixel_per_frame
         if self.side == "bottom":
-            self.rect.y -= self.speed
+            self.rect.y -= self.pixel_per_frame
 
     def update(self):
         self.move()
