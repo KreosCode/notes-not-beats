@@ -120,7 +120,10 @@ class Game(States):
                         for sprite in self.note_catcher_sprites.sprites():
                             if sprite.type == side:
                                 catcher = sprite.rect
-                        self.note_sprites.add(Note(dt, screen, catcher, **{f"{key}": value}))
+                        self.note_sprites.add(Note(dt= dt, screen= screen, 
+                                                   catcher= catcher, 
+                                                   path_length= self.note_catcher_sprites.sprites()[0].rect.centerx, 
+                                                   **{f"{key}": value}))
                 else: 
                     print("error, no note timings provided")
 

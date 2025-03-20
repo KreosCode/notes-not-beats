@@ -28,11 +28,11 @@ class NoteCatcher(pygame.sprite.Sprite):
             case _:
                 print("Wrong type provided")
 
-    def pressed(self):
+    def on_press(self):
         self.image = pygame.image.load("src/sprites/note_catcher_pressed.png").convert_alpha()
 
     def update(self, pressed):
         if pressed:
-            self.pressed()
+            self.on_press()
         else:
             self.image = pygame.image.load("src/sprites/note_catcher.png").convert_alpha()
