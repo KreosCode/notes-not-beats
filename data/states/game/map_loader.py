@@ -8,15 +8,23 @@ class MapLoader():
     def __init__(self, screen, **timings):
         # init of sprite groups
         self.center_group = pygame.sprite.GroupSingle(CenterIndicator(screen))
-        self.note_catcher_group = pygame.sprite.Group(NoteCatcher("left", self.center_group.sprite.rect),
-                                                      NoteCatcher("right", self.center_group.sprite.rect),
-                                                      NoteCatcher("top", self.center_group.sprite.rect),
-                                                      NoteCatcher("bottom", self.center_group.sprite.rect))
+
+        self.note_catcher_group = pygame.sprite.Group()
+        for side in ("left", "right", "top", "bottom"):
+            self.note_catcher_group.add(side, self.center_group.sprite.rect)
+
+        self.note_lane_group = pygame.sprite.Group()
+        for sprite in self.note_catcher_group.sprites():
+            self.note_lane_group.add(NoteLane(screen, sprite.type, sprite.rect))
+
+        self.note_group = pygame.sprite.Group()
         
 
     def sprites_draw(self):
         # drawing sprite groups
-        pass
+        self.center_group.draw()
+        self.note_catcher_group.draw()
+        self.note_lane_group.draw()
 
     def sprites_update(self):
         pass

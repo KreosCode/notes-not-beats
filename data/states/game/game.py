@@ -110,7 +110,6 @@ class Game(States):
             if self.note_lane is None:
                 self.note_lane = pygame.sprite.Group()
                 for sprite in self.note_catcher_sprites.sprites():
-                    print(sprite.type)
                     self.note_lane.add(NoteLane(screen, sprite.type, sprite.rect))
             # notes
             if not self.note_sprites.sprites():
