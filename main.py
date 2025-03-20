@@ -14,7 +14,8 @@ pygame.init()
 settings = {    
     "size": (1920, 1080),
     "fps": 60,
-    "flags": pygame.FULLSCREEN
+    "flags": pygame.FULLSCREEN,
+    "caption": "Notes Not Beat"
 }
 
 # dict of game states

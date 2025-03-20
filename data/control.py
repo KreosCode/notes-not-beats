@@ -6,7 +6,7 @@ class Control:
         self.done = False
         self.screen = pygame.display.set_mode(self.size, self.flags)
         self.clock = pygame.time.Clock()
-        pygame.display.set_caption("Notes Not Beat")
+        pygame.display.set_caption(self.caption)
 
     def setup_states(self, state_dict, start_state):
         self.state_dict = state_dict

@@ -4,7 +4,7 @@ class CenterIndicator(pygame.sprite.Sprite):
     def __init__(self, screen):
         super().__init__()
 
-        self.screen_size = {
+        screen_size = {
             "width": screen.get_width(),
             "height": screen.get_height()
         }
@@ -14,7 +14,7 @@ class CenterIndicator(pygame.sprite.Sprite):
         the problem is that path is going from main.py, not from center_indicator_sprite.py
         """
         self.image = pygame.image.load("src/sprites/center_indicator.png").convert_alpha()
-        self.rect = self.image.get_rect(center = (self.screen_size["width"] / 2, self.screen_size["height"] / 2))
+        self.rect = self.image.get_rect(center = (screen_size["width"] / 2, screen_size["height"] / 2))
 
     def update(self):
         pass

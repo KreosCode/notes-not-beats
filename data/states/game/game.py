@@ -100,17 +100,12 @@ class Game(States):
                 self.center_indicator = pygame.sprite.GroupSingle(CenterIndicator(screen))
 
                 if len(self.note_catcher_sprites.sprites()) != 4:
-                    center_params = {
-                        "center_midleft": self.center_indicator.sprite.rect.midleft,
-                        "center_midright": self.center_indicator.sprite.rect.midright,
-                        "center_midtop": self.center_indicator.sprite.rect.midtop,
-                        "center_midbottom": self.center_indicator.sprite.rect.midbottom
-                    }
+                    center_rect = self.center_indicator.sprite.rect
 
-                    self.note_catcher_sprites.add(NoteCatcher("left", **center_params), 
-                                          NoteCatcher("right", **center_params),
-                                          NoteCatcher("top", **center_params),
-                                          NoteCatcher("bottom", **center_params))
+                    self.note_catcher_sprites.add(NoteCatcher("left", center_rect), 
+                                          NoteCatcher("right", center_rect),
+                                          NoteCatcher("top", center_rect),
+                                          NoteCatcher("bottom", center_rect))
             # note lane
             if self.note_lane is None:
                 self.note_lane = pygame.sprite.GroupSingle(NoteLane(screen))

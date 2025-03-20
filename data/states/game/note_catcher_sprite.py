@@ -1,10 +1,9 @@
 import pygame
 
 class NoteCatcher(pygame.sprite.Sprite):
-    def __init__(self, type, **center_params):
+    def __init__(self, type, center_rect: pygame.rect.Rect):
         super().__init__()
 
-        self.__dict__.update(center_params)
         self.type = type
         self.padding = 10 # in pixels
         """
@@ -15,16 +14,16 @@ class NoteCatcher(pygame.sprite.Sprite):
 
         match self.type:
             case "left":
-                self.rect = self.image.get_rect(midright = (self.center_midleft))
+                self.rect = self.image.get_rect(midright = (center_rect.midleft))
                 self.rect.x -= self.padding
             case "right":
-                self.rect = self.image.get_rect(midleft = (self.center_midright))
+                self.rect = self.image.get_rect(midleft = (center_rect.midright))
                 self.rect.x += self.padding
             case "top":
-                self.rect = self.image.get_rect(midbottom = (self.center_midtop))
+                self.rect = self.image.get_rect(midbottom = (center_rect.midtop))
                 self.rect.y -= self.padding
             case "bottom":
-                self.rect = self.image.get_rect(midtop = (self.center_midbottom))
+                self.rect = self.image.get_rect(midtop = (center_rect.midbottom))
                 self.rect.y += self.padding
             case _:
                 print("Wrong type provided")
