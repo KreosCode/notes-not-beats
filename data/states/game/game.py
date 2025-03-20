@@ -90,7 +90,7 @@ class Game(States):
             self.bg_assign()
         else:
             if self.sprites_assigned:
-                screen.blits([(self.bg_horizontal_surf, self.bg_horizontal_coords), (self.bg_vertical_surf, self.bg_vertical_coords)])
+                pass
 
     def sprite_assign(self, screen, dt):
         if not self.sprites_assigned: 
@@ -108,7 +108,10 @@ class Game(States):
                                           NoteCatcher("bottom", center_rect))
             # note lane
             if self.note_lane is None:
-                self.note_lane = pygame.sprite.GroupSingle(NoteLane(screen))
+                self.note_lane = pygame.sprite.Group()
+                for sprite in self.note_catcher_sprites.sprites():
+                    print(sprite.type)
+                    self.note_lane.add(NoteLane(screen, sprite.type, sprite.rect))
             # notes
             if not self.note_sprites.sprites():
                 song_config = config_loader.option_load("songs/Onoken - Sagashi Mono/sagashi_mono.nnb", True)

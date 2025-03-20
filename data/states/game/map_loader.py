@@ -16,6 +16,7 @@ class MapLoader():
 
     def sprites_draw(self):
         # drawing sprite groups
+        pass
 
     def sprites_update(self):
         pass

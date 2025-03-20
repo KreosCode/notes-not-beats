@@ -5,7 +5,7 @@ class NoteCatcher(pygame.sprite.Sprite):
         super().__init__()
 
         self.type = type
-        self.padding = 10 # in pixels
+        margin = 10 # in pixels
         """
         need to do something with relative path here
         the problem is that path is going from main.py, not from center_indicator_sprite.py
@@ -15,16 +15,16 @@ class NoteCatcher(pygame.sprite.Sprite):
         match self.type:
             case "left":
                 self.rect = self.image.get_rect(midright = (center_rect.midleft))
-                self.rect.x -= self.padding
+                self.rect.x -= margin
             case "right":
                 self.rect = self.image.get_rect(midleft = (center_rect.midright))
-                self.rect.x += self.padding
+                self.rect.x += margin
             case "top":
                 self.rect = self.image.get_rect(midbottom = (center_rect.midtop))
-                self.rect.y -= self.padding
+                self.rect.y -= margin
             case "bottom":
                 self.rect = self.image.get_rect(midtop = (center_rect.midbottom))
-                self.rect.y += self.padding
+                self.rect.y += margin
             case _:
                 print("Wrong type provided")
 
