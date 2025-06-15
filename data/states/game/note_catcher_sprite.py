@@ -6,10 +6,6 @@ class NoteCatcher(pygame.sprite.Sprite):
 
         self.type = type
         margin = 10 # in pixels
-        """
-        need to do something with relative path here
-        the problem is that path is going from main.py, not from center_indicator_sprite.py
-        """
         self.image = pygame.image.load("src/sprites/note_catcher.png").convert_alpha()
 
         match self.type:

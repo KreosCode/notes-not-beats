@@ -49,16 +49,18 @@ class Game(States):
         # sprite clear (rewrite it to separate func)
         self.center_indicator = None
         self.sprites_assigned = False
+        self.note_lane = None
         self.note_catcher_sprites.empty()
         self.note_sprites.empty()
 
         # SUBJECT TO CHANGE
         self.song_started = False
         self.song.stop()
-        
+
         pygame.mouse.set_visible(True)
 
     def startup(self):
+        # hiding mouse cursor
         pygame.mouse.set_visible(False)
         self.countdown_started = True
 
@@ -111,10 +113,12 @@ class Game(States):
                                           NoteCatcher("top", center_rect),
                                           NoteCatcher("bottom", center_rect))
             # note lane
+
             if self.note_lane is None:
-                self.note_lane = pygame.sprite.Group()
-                for sprite in self.note_catcher_sprites.sprites():
-                    self.note_lane.add(NoteLane(screen, sprite.type, sprite.rect))
+                self.note_lane = pygame.sprite.GroupSingle()
+                self.note_lane.add(NoteLane(screen))
+                # self.note_lane.add(NoteLane(screen, sprite.type, sprite.rect))
+
             # notes
             if not self.note_sprites.sprites():
                 song_config = config_loader.option_load("songs/Onoken - Sagashi Mono/sagashi_mono.nnb", True)
