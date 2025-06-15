@@ -9,9 +9,12 @@ class Menu(States):
         self.next = "game"
         self.button_group = pygame.sprite.Group()
         self.button_group.add(Button((100, 500), "#ffffff", "Play", "play"), Button((100, 575), "#ffffff", "Quit", "quit"))
-        """RELATIVE PATH..."""
+        # here and after:
+        # because entire program is
+        # running from the main.py
+        # file, all the paths should
+        # be set from main.py dir
         self.background_music = pygame.mixer.Sound("src/bg_music/bgm.mp3")
-        """________________"""
         self.background_music.set_volume(.02)
     def cleanup(self):
         self.background_music.stop()

@@ -11,21 +11,21 @@ class Game(States):
         super().__init__()
         self.next = "menu"
 
-        self.countdown_time = 0 # seconds needed to start the main game
-        self.bg_color = "#010203" # bg color
+        self.countdown_time = 0         # seconds needed to start the main game
+        self.bg_color = "#010203"       # bg color
 
-        self.countdown_started = False #  state of countdown
-        self.time_get = False # help to take current time only one time (need for countdown)
-        self.game_state = False # state of main game (gameplay)
-        self.bg_get = False # help to get bg sizes only one time
-        self.song_started = False # help to start song only one time
+        self.countdown_started = False  # state of countdown
+        self.time_get = False           # help to take current time only one time (need for countdown)
+        self.game_state = False         # state of main game (gameplay)
+        self.bg_get = False             # help to get bg sizes only one time
+        self.song_started = False       # help to start song only one time
 
         # sprites
-        self.center_indicator = None # referring to group single
-        self.note_lane = None # referring to group single
-        self.note_catcher_sprites = pygame.sprite.Group() # referring to sprites group
-        self.note_sprites = pygame.sprite.Group() # referring to sprites group
-        self.sprites_assigned = False # show if sprites assigned
+        self.center_indicator = None                        # referring to group single
+        self.note_lane = None                               # referring to group single
+        self.note_catcher_sprites = pygame.sprite.Group()   # referring to sprites group
+        self.note_sprites = pygame.sprite.Group()           # referring to sprites group
+        self.sprites_assigned = False                       # show if sprites assigned
 
         # keybinginds
         self.keybinds = {
