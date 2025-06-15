@@ -17,13 +17,13 @@ class Button(pygame.sprite.Sprite):
         self.audio_state = False # false - not played
         self.hover_sound = pygame.mixer.Sound("src/sounds/button_hover.mp3")
         self.clicked_sound = pygame.mixer.Sound("src/sounds/button_clicked.mp3")
-        self.hover_sound.set_volume(.1)
-        self.clicked_sound.set_volume(.1)
+        self.hover_sound.set_volume(.03)
+        self.clicked_sound.set_volume(.05)
 
         self.sign_surf = self.font.render("> ", True, self.color)
         self.text_surf = self.font.render(self.text, True, self.color)
         self.button_surf = pygame.Surface(((self.sign_surf.get_width() + self.text_surf.get_width()), self.text_surf.get_height()))
-        self.button_surf.fill("#0D1321")
+        self.button_surf.fill("#0D1321") # temporary transparent bg fix
         self.button_surf.blit(self.text_surf, (self.sign_surf.get_width(), 0))
 
         self.image = self.button_surf

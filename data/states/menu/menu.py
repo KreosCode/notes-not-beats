@@ -20,7 +20,7 @@ class Menu(States):
         self.background_music.stop()
 
     def startup(self):
-        self.background_music.play(-1)
+        self.background_music.play()
 
     def get_event(self, event):
         for sprite in self.button_group.sprites():

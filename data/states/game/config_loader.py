@@ -44,4 +44,4 @@ def option_load(path: str, loadnotes = False):
         return None
 
 if __name__ == "__main__":
-    print(option_load("../../../songs/Onoken - Sagashi Mono/sagashi_mono.nnb"))
+    print(option_load("songs/Onoken - Sagashi Mono/sagashi_mono.nnb", True))

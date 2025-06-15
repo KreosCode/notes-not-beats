@@ -1,3 +1,8 @@
+# This module is currently disabled, need
+# to completely rewrite it to the 'loading
+# screen' state
+
+
 import pygame
 from center_indicator_sprite import CenterIndicator
 from center_background_sprite import CenterBackground

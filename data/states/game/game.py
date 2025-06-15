@@ -1,3 +1,7 @@
+# In this state the main game is happening:
+# notes being spawned, music being played etc
+
+
 import pygame
 from ...state import States
 from .center_indicator_sprite import CenterIndicator
@@ -12,7 +16,7 @@ class Game(States):
         self.next = "menu"
 
         self.countdown_time = 0         # seconds needed to start the main game
-        self.bg_color = "#010203"       # bg color
+        self.bg_color = "#010203"     # bg color
 
         self.countdown_started = False  # state of countdown
         self.time_get = False           # help to take current time only one time (need for countdown)
@@ -139,7 +143,7 @@ class Game(States):
     def play_song(self):
         if not self.song_started:
             self.song = pygame.mixer.Sound("songs/Onoken - Sagashi Mono/sagashi_mono.mp3")
-            self.song.set_volume(0.2)
+            self.song.set_volume(0.05)
             self.song.play()
             self.song_started = True
 
