@@ -1,4 +1,4 @@
-import pygame
+from pygame import font
 
 class States(object):
     def __init__(self):
@@ -6,4 +6,4 @@ class States(object):
         self.next = None
         self.quit = False
         self.previous = None
-        self.font = pygame.font.Font("src/fonts/metropolis.thin.otf", 48)
+        self.font = font.Font("src/fonts/metropolis.thin.otf", 48)
