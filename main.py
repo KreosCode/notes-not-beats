@@ -3,10 +3,8 @@ from sys import exit
 # 'State' may be some window(splash screen, result screen), menu(pause) etc
 # from data.state import States
 from data.control import Control
-"""CHANGE IT"""
-from data.states.menu.menu import Menu # should found a way to import state only if needed
+from data.states.menu.menu import Menu
 from data.states.game.game import Game
-"""_________"""
 
 pygame.init()
 
@@ -27,7 +25,7 @@ state_dict = {
 """__________________________________________________"""
 
 app = Control(**settings)
-app.setup_states(state_dict, "menu")
+app.setup_states(state_dict=state_dict, start_state="menu")
 app.main_game_loop()
 
 pygame.quit()

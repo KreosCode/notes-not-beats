@@ -201,4 +201,3 @@ class Game(States):
 
         if self.countdown_started:
             self.countdown(screen, pygame.time.get_ticks() / 1000)
-        
