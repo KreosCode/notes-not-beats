@@ -1,6 +1,7 @@
 import pygame
 from sys import exit
-from data.state import States
+# 'State' may be some window(splash screen, result screen), menu(pause) etc
+# from data.state import States
 from data.control import Control
 """CHANGE IT"""
 from data.states.menu.menu import Menu # should found a way to import state only if needed
