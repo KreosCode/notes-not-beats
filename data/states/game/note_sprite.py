@@ -4,8 +4,8 @@ class Note(pygame.sprite.Sprite):
     def __init__(self, dt, screen: pygame.surface.Surface, catcher: pygame.rect.Rect, **timings):
         """
         types of timings kwargs:
-        note) 1: {'type': 'single', 'sound_name1': 'soft-hitwhistle2.wav', 'end_timing1': '2660', 'side': 'top'}
-        slider) 2: {'type': 'slider', 'sound_name1': 'soft-hitwhistle2.wav', 'sound_name2': 'pause', 'end_timing1': '3035', 'end_timing2': '3597', 'side': 'right'}
+        note - 1: {'type': 'single', 'sound_name1': 'soft-hitwhistle2.wav', 'end_timing1': '2660', 'side': 'top'}
+        slider - 2: {'type': 'slider', 'sound_name1': 'soft-hitwhistle2.wav', 'sound_name2': 'pause', 'end_timing1': '3035', 'end_timing2': '3597', 'side': 'right'}
         """
         super().__init__()
         self.id = next(iter(timings))
@@ -18,33 +18,22 @@ class Note(pygame.sprite.Sprite):
         self.pixel_per_frame = 2
         ms_per_frame = dt
         self.speed = self.pixel_per_frame/ms_per_frame
-
-        # path_length and start_timing assign
-        # !!!!!!!!!!!!!
-        # CHANGE IT LATER
-        if self.side in ("left", "right"):
-            path_length = 890 
-        elif self.side in ("top", "bottom"):
-            path_length = 470
-        start_timing = self.end_timing1 - path_length / self.speed # shows the timing when note has to be on the start of its lane
-        # CHANGE IT LATER
-        # !!!!!!!!!!!!!
         
         # single note assign
         if self.type == "single":
             self.image = pygame.image.load("src/sprites/note.png").convert_alpha()
             if self.side == "left":
-                self.start_pos = (-self.image.get_width() - start_timing * self.speed, 
+                self.start_pos = (-self.image.get_width() - self.end_timing1 * self.speed, 
                                   catcher.y)
             elif self.side == "right":
-                self.start_pos = (screen.get_width() + self.image.get_width() + start_timing * self.speed, 
+                self.start_pos = (screen.get_width() + self.image.get_width() + self.end_timing1 * self.speed, 
                                   catcher.y)
             elif self.side == "top":
                 self.start_pos = (catcher.x, 
-                                  -self.image.get_height() - start_timing * self.speed)
+                                  -self.image.get_height() - self.end_timing1 * self.speed)
             elif self.side == "bottom":
                 self.start_pos = (catcher.x, 
-                                  screen.get_height() + self.image.get_height() + start_timing * self.speed)
+                                  screen.get_height() + self.image.get_height() + self.end_timing1 * self.speed)
                 
             self.rect = self.image.get_rect(topleft = self.start_pos)
 
@@ -66,15 +55,15 @@ class Note(pygame.sprite.Sprite):
                     self.image.blits(((slider_head, (0, 0)),
                                       (slider_body, (slider_head.get_width(), 0)),
                                       (slider_start, (slider_head.get_width() + slider_body.get_width() - slider_start.get_width() / 2, 0))))
-                    self.start_pos = (-self.image.get_width() - start_timing * self.speed, 
+                    self.start_pos = (-self.image.get_width() - self.end_timing1 * self.speed, 
                                       catcher.y)
                 
-                if self.side == "left":
+                if self.side == "right":
                     slider_head = pygame.transform.rotate(slider_head, -90).convert_alpha()
                     self.image.blits(((slider_start, (0, 0)),
                                       (slider_body, (slider_start.get_width() / 2, 0)),
                                       (slider_head, (slider_start.get_width() / 2 + slider_body.get_width(), 0))))
-                    self.start_pos = (screen.get_width() + self.image.get_width() + start_timing * self.speed, 
+                    self.start_pos = (screen.get_width() + self.image.get_width() + self.end_timing1 * self.speed, 
                                       catcher.y)
                
             elif self.side in ("top", "bottom"):
@@ -89,7 +78,7 @@ class Note(pygame.sprite.Sprite):
                                       (slider_body, (0, slider_head.get_height())),
                                       (slider_start, (0, slider_head.get_height() + slider_body.get_height() - slider_start.get_height() / 2))))
                     self.start_pos = (catcher.x, 
-                                 -self.image.get_height() - start_timing * self.speed)
+                                 -self.image.get_height() - self.end_timing1 * self.speed)
 
                 elif self.side == "bottom":
                     slider_head = pygame.transform.flip(slider_head, False, True).convert_alpha()
@@ -97,9 +86,9 @@ class Note(pygame.sprite.Sprite):
                                      (slider_body, (0, slider_start.get_height() / 2)),
                                      (slider_head, (0, slider_start.get_height() / 2 + slider_body.get_height()))))
                     self.start_pos = (catcher.x, 
-                                 screen.get_height() + self.image.get_height() + start_timing * self.speed)
+                                 screen.get_height() + self.image.get_height() + self.end_timing1 * self.speed)
                     
-            self.rect = self.image.get_rect(topleft = self.start_pos)
+            self.rect = self.image.get_rect(topleft = self.start_pos)   
 
         
         

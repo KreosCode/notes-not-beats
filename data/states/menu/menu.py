@@ -12,7 +12,7 @@ class Menu(States):
         """RELATIVE PATH..."""
         self.background_music = pygame.mixer.Sound("src/bg_music/bgm.mp3")
         """________________"""
-        self.background_music.set_volume(.05)
+        self.background_music.set_volume(.02)
     def cleanup(self):
         self.background_music.stop()
 
