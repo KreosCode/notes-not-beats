@@ -1,4 +1,7 @@
 # notes-not-beats
+## dependencies
+- python 3.12.9
+- pygame 2.6.1
 ## mapping guide
 **[General]**
 - song_name
