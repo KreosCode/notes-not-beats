@@ -36,7 +36,7 @@
 
 **[NoteTimings]**
 - expression = name1, name2, end_timing1, end_timing2, side 
-- EXPRESSION CONTAINS EITHER 3 OR 5 VALUES IN TOTAL  
+- EXPRESSION HAVE TO CONTAIN EITHER 3 OR 5 VALUES
 
 - name1, name2
     - str 
