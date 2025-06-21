@@ -1,5 +1,5 @@
 # notes-not-beats
-## dependencies
+## requirements
 - python 3.12.9
 - pygame 2.6.1
 ## mapping guide
