@@ -20,6 +20,21 @@ class Game2(States):
 
         self.sprite_assigned = False      # indicates if sprite_assign() is executed
 
+        # vvv Temporary part (parsing)
+        path = "songs/Onoken - Sagashi Mono/sagashi_mono.nnb"
+        self.song_general_info = config_loader.option_load(path, False)["[General]"]
+        # self.song_difficulty_info = config_loader.option_load("songs/Onoken - Sagashi Mono/sagashi_mono.nnb", False)["[Difficulty]"]
+        # self.song_timing_options_info = config_loader.option_load("songs/Onoken - Sagashi Mono/sagashi_mono.nnb", False)["[TimingOptions]"]
+        self.song_note_timings = config_loader.option_load(path, True)["[NoteTimings]"]
+        # ^^^ Temporary part (parsing)
+
+        self.keybinds = {
+            "left": pygame.K_a,
+            "right": pygame.K_d,
+            "top": pygame.K_w,
+            "bottom": pygame.K_s
+        }
+
     def startup(self):
         pass
 
@@ -27,7 +42,23 @@ class Game2(States):
         pass
 
     def get_event(self, event):
-        pass
+        if event.type == pygame.KEYDOWN:
+           # changing key_indicator sprite if
+           # corresponding key is being pressed
+           for action, keybind in self.keybinds.items():
+                if event.key == keybind:
+                    for sprite in self.key_indicators.sprites():
+                        if sprite.side == action:
+                            sprite.update(pressed = True)
+
+        if event.type == pygame.KEYUP:
+           # changing key_indicator sprite if
+           # corresponding key is being unpressed
+           for action, keybind in self.keybinds.items():
+                if event.key == keybind:
+                    for sprite in self.key_indicators.sprites():
+                        if sprite.side == action:
+                            sprite.update(pressed = False)
 
     def update(self, screen, dt):
         screen.fill(self.bg_color)          # updating background
@@ -59,3 +90,5 @@ class Game2(States):
 
         self.center_background = pygame.sprite.GroupSingle(CenterBackground(self.center_indicator.sprite.rect,
                                                                             self.bg_color))
+        
+        self.notes = pygame.sprite.Group()
