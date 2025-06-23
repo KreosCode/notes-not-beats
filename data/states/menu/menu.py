@@ -6,7 +6,7 @@ class Menu(States):
     def __init__(self):
         super().__init__()
 
-        self.next = "game"
+        self.next = "game2"
         self.button_group = pygame.sprite.Group()
         self.button_group.add(Button((100, 500), "#ffffff", "Play", "play"), Button((100, 575), "#ffffff", "Quit", "quit"))
         # here and after:

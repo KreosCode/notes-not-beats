@@ -5,6 +5,7 @@ from sys import exit
 from data.control import Control
 from data.states.menu.menu import Menu
 from data.states.game.game import Game
+from data.states.game.game2 import Game2
 
 pygame.init()
 
@@ -20,7 +21,8 @@ settings = {
 # dict of game states
 state_dict = {
     "menu": Menu(),
-    "game": Game()
+    "game": Game(),
+    "game2": Game2()
 }
 """__________________________________________________"""
 
