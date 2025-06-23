@@ -4,10 +4,10 @@
 
 import pygame
 from ...state import States
-from .center_indicator_sprite import CenterIndicator
-from .key_indicator_sprite import KeyIndicator
-from .note_lane_sprite import NoteLane
-from .note_sprite import Note
+from .sprites.center_indicator_sprite import CenterIndicator
+from .sprites.key_indicator_sprite import KeyIndicator
+from .sprites.note_lane_sprite import NoteLane
+from .sprites.note_sprite import Note
 from . import config_loader
 
 class Game(States):
@@ -74,7 +74,7 @@ class Game(States):
             }
             for i in note_catcher_sides.keys():
                 for x in self.note_catcher_sprites.sprites():
-                    if x.type == i:
+                    if x.side == i:
                         note_catcher_sides[i] = x
 
             """Maybe make bg sprites"""
@@ -126,7 +126,7 @@ class Game(States):
                     for key, value in song_config["[NoteTimings]"].items():
                         side = song_config["[NoteTimings]"][key]["side"]
                         for sprite in self.note_catcher_sprites.sprites():
-                            if sprite.type == side:
+                            if sprite.side == side:
                                 catcher = sprite.rect
                         self.note_sprites.add(Note(dt= dt, screen= screen, catcher= catcher, **{f"{key}": value}))
                 else: 
@@ -169,7 +169,7 @@ class Game(States):
                 for keytype, keybind in self.keybinds.items():
                     if event.key == keybind:
                         for i in self.note_catcher_sprites.sprites():
-                            if i.type == keytype:
+                            if i.side == keytype:
                                 i.update(pressed = True)
             
             if event.type == pygame.KEYUP:
@@ -178,7 +178,7 @@ class Game(States):
                 for keytype, keybind in self.keybinds.items():
                     if event.key == keybind:
                         for i in self.note_catcher_sprites.sprites():
-                            if i.type == keytype:
+                            if i.side == keytype:
                                 i.update(pressed = False)
                     
     def countdown(self, screen, current_time):

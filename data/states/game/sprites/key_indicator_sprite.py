@@ -3,11 +3,10 @@
 import pygame
 
 class KeyIndicator(pygame.sprite.Sprite):
-    def __init__(self, side, center_rect: pygame.rect.Rect):
+    def __init__(self, side, center_rect: pygame.rect.Rect, margin):
         super().__init__()
 
         self.side = side
-        margin = 5 # in pixels
         self.image = pygame.image.load("src/sprites/key_indicator.png").convert_alpha()
 
         match self.side:
