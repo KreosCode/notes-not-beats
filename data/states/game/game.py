@@ -5,7 +5,7 @@
 import pygame
 from ...state import States
 from .center_indicator_sprite import CenterIndicator
-from .note_catcher_sprite import NoteCatcher
+from .key_indicator_sprite import KeyIndicator
 from .note_lane_sprite import NoteLane
 from .note_sprite import Note
 from . import config_loader
@@ -108,10 +108,10 @@ class Game(States):
                 if len(self.note_catcher_sprites.sprites()) != 4:
                     center_rect = self.center_indicator.sprite.rect
 
-                    self.note_catcher_sprites.add(NoteCatcher("left", center_rect), 
-                                          NoteCatcher("right", center_rect),
-                                          NoteCatcher("top", center_rect),
-                                          NoteCatcher("bottom", center_rect))
+                    self.note_catcher_sprites.add(KeyIndicator("left", center_rect), 
+                                          KeyIndicator("right", center_rect),
+                                          KeyIndicator("top", center_rect),
+                                          KeyIndicator("bottom", center_rect))
             # note lane
 
             if self.note_lane is None:
