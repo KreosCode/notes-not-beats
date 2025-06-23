@@ -19,10 +19,12 @@ class Game2(States):
         # maybe move all following part in the startup?
 
         self.bg_color = "#010203"
-        self.sprite_assigned = False      # indicates if sprite_assign() is executed
+        self.sprite_assigned = False                    # indicates if sprite_assign() is executed
 
         # game constants
-        self.APPROACH_TIME = 2000 # 
+        self.APPROACH_TIME = 2000                       # time notes are visible before hitting (ms)
+        self.DISTANCE = 440                             # distance between screen edge and catcher (same for all sides)
+        self.REMOVE_DELAY = 200                         # time after hit to remove note (ms)
 
         # vvv Temporary part (parsing)
         path = "songs/Onoken - Sagashi Mono/sagashi_mono.nnb"
@@ -32,6 +34,10 @@ class Game2(States):
         self.song_note_timings = config_loader.option_load(path, True)["[NoteTimings]"]
         # ^^^ Temporary part (parsing)
 
+        self.unspawned_notes = []
+        self.active_notes = [] # USE THIS TO PLAY SOUNDS
+        self.prepare_note_data()
+
         self.keybinds = {
             "left": pygame.K_a,
             "right": pygame.K_d,
@@ -39,13 +45,31 @@ class Game2(States):
             "bottom": pygame.K_s
         }
 
+    def prepare_note_data(self):
+        for _, note_data in self.song_note_timings.items():
+            self.unspawned_notes.append({
+                'type': note_data['type'],
+                'sound_name1': note_data['sound_name1'],
+                'end_timing1': note_data['end_timing1'],
+                'side': note_data['side']
+            })
+        
+        # Sort by timing
+        self.unspawned_notes.sort(key=lambda x: x['end_timing1'])
+
     def startup(self):
-        pass
+        delay = 0
+        pygame.mixer.music.load(f"songs/Onoken - Sagashi Mono/{self.song_general_info['song_filename']}")
+        pygame.mixer.music.set_volume(0.05)
+        pygame.mixer.music.play(start=delay)
+        self.song_start_time = pygame.time.get_ticks()      # need to check current song progress
+        self.song_started = True                            # indicates if song started
 
     def cleanup(self):
         # 'unpressing' all indicators
         for sprite in self.key_indicators.sprites():
             sprite.update(pressed = False)
+        pygame.mixer.music.stop()
 
     def get_event(self, event):
         if event.type == pygame.KEYDOWN:
@@ -76,8 +100,33 @@ class Game2(States):
             self.sprite_assign(screen)
             self.sprite_assigned = True
         
-        self.notes.update()
+        if self.song_started:
+            current_time = pygame.time.get_ticks() - self.song_start_time
+            self.spawn_notes(current_time)                                                    # spawn new notes
+            self.update_notes(dt, current_time)                                               # update spawned notes
+
         self.draw(screen)
+
+    def spawn_notes(self, current_time):
+        # spawn notes at correct time
+        while self.unspawned_notes:
+            note_data = self.unspawned_notes[0]
+            spawn_time = note_data['end_timing1'] - self.APPROACH_TIME
+
+            if current_time >= spawn_time:
+                new_note = Note(self.note_lane.sprite.rect, self.APPROACH_TIME, self.DISTANCE, spawn_time,
+                                note_data["type"], note_data["sound_name1"], note_data["end_timing1"], note_data["side"])
+                self.notes.add(new_note)
+                self.unspawned_notes.pop(0)
+            else:
+                break
+
+    def update_notes(self, dt, current_time):
+        self.notes.update(dt)
+
+        for note in self.notes.sprites():
+            if current_time > note.end_timing1 + self.REMOVE_DELAY:
+                note.kill()
 
     def draw(self, screen):
         self.note_lane.draw(screen)
@@ -98,12 +147,6 @@ class Game2(States):
         for sprite in self.key_indicators.sprites():
             self.note_catcher.add(NoteCatcher(sprite.side, sprite.rect))
 
-        # distance between screen edge and catcher (same for all sides)
-        for sprite in self.note_catcher.sprites():
-            if sprite.side == 'top':
-                distance = sprite.rect.top
-
         self.center_background = pygame.sprite.GroupSingle(CenterBackground(self.center_indicator.sprite.rect,
                                                                             self.bg_color))
-        
         self.notes = pygame.sprite.Group()
