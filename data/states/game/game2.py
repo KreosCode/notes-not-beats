@@ -19,8 +19,10 @@ class Game2(States):
         # maybe move all following part in the startup?
 
         self.bg_color = "#010203"
-
         self.sprite_assigned = False      # indicates if sprite_assign() is executed
+
+        # game constants
+        self.APPROACH_TIME = 2000 # 
 
         # vvv Temporary part (parsing)
         path = "songs/Onoken - Sagashi Mono/sagashi_mono.nnb"
@@ -29,35 +31,6 @@ class Game2(States):
         # self.song_timing_options_info = config_loader.option_load("songs/Onoken - Sagashi Mono/sagashi_mono.nnb", False)["[TimingOptions]"]
         self.song_note_timings = config_loader.option_load(path, True)["[NoteTimings]"]
         # ^^^ Temporary part (parsing)
-
-        # dict for appllying sounds to keys
-        # need to optimize this part in future
-        self.sound_dict = {
-            'left': [],
-            'right': [],
-            'top': [],
-            'bottom': []
-        }
-        for _, value in self.song_note_timings.items():
-            match value['side']:
-                case 'left':
-                    self.sound_dict['left'].append(value['sound_name1'])
-                case 'right':
-                    self.sound_dict['right'].append(value['sound_name1'])
-                case 'left':
-                    self.sound_dict['top'].append(value['sound_name1'])
-                case 'left':
-                    self.sound_dict['bottom'].append(value['sound_name1'])
-
-        # applying first sound to side if one doesnt have it
-        if not self.sound_dict['left']:
-            self.sound_dict['left'].append('soft-hitwhistle.wav')
-        if not self.sound_dict['right']:
-            self.sound_dict['right'].append('soft-hitwhistle.wav')
-        if not self.sound_dict['top']:
-            self.sound_dict['top'].append('soft-hitwhistle.wav')
-        if not self.sound_dict['bottom']:
-            self.sound_dict['bottom'].append('soft-hitwhistle.wav')
 
         self.keybinds = {
             "left": pygame.K_a,
@@ -103,11 +76,12 @@ class Game2(States):
             self.sprite_assign(screen)
             self.sprite_assigned = True
         
+        self.notes.update()
         self.draw(screen)
 
     def draw(self, screen):
         self.note_lane.draw(screen)
-        # add note sprite here
+        self.notes.draw(screen)
         self.center_background.draw(screen)
         self.center_indicator.draw(screen)
         self.key_indicators.draw(screen)
@@ -127,11 +101,9 @@ class Game2(States):
         # distance between screen edge and catcher (same for all sides)
         for sprite in self.note_catcher.sprites():
             if sprite.side == 'top':
-                s = sprite.rect.top
-                
+                distance = sprite.rect.top
+
         self.center_background = pygame.sprite.GroupSingle(CenterBackground(self.center_indicator.sprite.rect,
                                                                             self.bg_color))
         
-        # self.notes = pygame.sprite.Group()
-        # for key, value in self.song_note_timings.items():
-        #     self.notes.add(Note())
+        self.notes = pygame.sprite.Group()

@@ -12,7 +12,7 @@ skipEnd = False
 [NoteTimings]
 soft-hitwhistle.wav, 2285, left
 soft-hitwhistle2.wav, 2660, top
-soft-hitwhistle2.wav, pause, 3035, 3597, right
+soft-hitwhistle2.wav, 3035, right
 soft-hitwhistle.wav, 3785, bottom
 soft-hitwhistle2.wav, 4160, right
 soft-hitwhistle3.wav, 4535, left
@@ -21,6 +21,8 @@ soft-hitwhistle3.wav, 5035, right
 soft-hitwhistle4.wav, 5160, left
 soft-hitwhistle5.wav, 5285, bottom
 soft-hitwhistle6.wav, 5660, right
-soft-hitwhistle.wav, soft-hitwhistle4.wav, 6035, 6410, top
-soft-hitwhistle5.wav, soft-hitwhistle6.wav, 6785, 7160, bottom
-soft-hitwhistle7.wav, pause, 7535, 8097, top
+soft-hitwhistle.wav, 6035, top
+soft-hitwhistle.wav, 6410, top
+soft-hitwhistle5.wav, 6785, bottom
+soft-hitwhistle6.wav, 7160, bottom
+soft-hitwhistle7.wav, 7535, top
