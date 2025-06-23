@@ -16,11 +16,12 @@ class Menu(States):
         # be set from main.py dir
         self.background_music = pygame.mixer.Sound("src/bg_music/bgm.mp3")
         self.background_music.set_volume(.02)
-    def cleanup(self):
-        self.background_music.stop()
 
     def startup(self):
-        self.background_music.play()
+            self.background_music.play()
+
+    def cleanup(self):
+        self.background_music.stop()
 
     def get_event(self, event):
         for sprite in self.button_group.sprites():

@@ -16,6 +16,8 @@ class Game2(States):
         super().__init__()
         self.next = "menu"
 
+        # maybe move all following part in the startup?
+
         self.bg_color = "#010203"
 
         self.sprite_assigned = False      # indicates if sprite_assign() is executed
@@ -28,6 +30,35 @@ class Game2(States):
         self.song_note_timings = config_loader.option_load(path, True)["[NoteTimings]"]
         # ^^^ Temporary part (parsing)
 
+        # dict for appllying sounds to keys
+        # need to optimize this part in future
+        self.sound_dict = {
+            'left': [],
+            'right': [],
+            'top': [],
+            'bottom': []
+        }
+        for _, value in self.song_note_timings.items():
+            match value['side']:
+                case 'left':
+                    self.sound_dict['left'].append(value['sound_name1'])
+                case 'right':
+                    self.sound_dict['right'].append(value['sound_name1'])
+                case 'left':
+                    self.sound_dict['top'].append(value['sound_name1'])
+                case 'left':
+                    self.sound_dict['bottom'].append(value['sound_name1'])
+
+        # applying first sound to side if one doesnt have it
+        if not self.sound_dict['left']:
+            self.sound_dict['left'].append('soft-hitwhistle.wav')
+        if not self.sound_dict['right']:
+            self.sound_dict['right'].append('soft-hitwhistle.wav')
+        if not self.sound_dict['top']:
+            self.sound_dict['top'].append('soft-hitwhistle.wav')
+        if not self.sound_dict['bottom']:
+            self.sound_dict['bottom'].append('soft-hitwhistle.wav')
+
         self.keybinds = {
             "left": pygame.K_a,
             "right": pygame.K_d,
@@ -39,10 +70,15 @@ class Game2(States):
         pass
 
     def cleanup(self):
-        pass
+        # 'unpressing' all indicators
+        for sprite in self.key_indicators.sprites():
+            sprite.update(pressed = False)
 
     def get_event(self, event):
         if event.type == pygame.KEYDOWN:
+           if event.key == pygame.K_SPACE:
+               self.done = True
+
            # changing key_indicator sprite if
            # corresponding key is being pressed
            for action, keybind in self.keybinds.items():
@@ -88,7 +124,14 @@ class Game2(States):
         for sprite in self.key_indicators.sprites():
             self.note_catcher.add(NoteCatcher(sprite.side, sprite.rect))
 
+        # distance between screen edge and catcher (same for all sides)
+        for sprite in self.note_catcher.sprites():
+            if sprite.side == 'top':
+                s = sprite.rect.top
+                
         self.center_background = pygame.sprite.GroupSingle(CenterBackground(self.center_indicator.sprite.rect,
                                                                             self.bg_color))
         
-        self.notes = pygame.sprite.Group()
+        # self.notes = pygame.sprite.Group()
+        # for key, value in self.song_note_timings.items():
+        #     self.notes.add(Note())
