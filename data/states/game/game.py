@@ -1,3 +1,4 @@
+# OLD GAME STATE, REFER TO THE GAME2. THIS ONE ISN'T WORKING
 # In this state the main game is happening:
 # notes being spawned, music being played etc
 
