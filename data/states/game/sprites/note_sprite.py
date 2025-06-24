@@ -36,6 +36,7 @@ class Note(pygame.sprite.Sprite):
                         self.rect = self.image.get_rect(midtop = note_lane_rect.midbottom)
 
     def update(self, dt):
+        # velocity = px/ms, dt = ms/frame
         px_per_frame = self.velocity * dt
         match self.side:
             case 'left':

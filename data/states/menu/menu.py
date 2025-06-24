@@ -18,7 +18,7 @@ class Menu(States):
         self.background_music.set_volume(.02)
 
     def startup(self):
-            self.background_music.play()
+            self.background_music.play(-1)
 
     def cleanup(self):
         self.background_music.stop()
