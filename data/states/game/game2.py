@@ -9,6 +9,7 @@ from .sprites.key_indicator_sprite import KeyIndicator
 from .sprites.note_catcher_sprite import NoteCatcher
 from .sprites.note_lane_sprite import NoteLane
 from .sprites.note_sprite import Note
+from .sprites.debug_info_sprite import DebugInfo
 from . import config_loader
 
 class Game2(States):
@@ -59,6 +60,11 @@ class Game2(States):
         pygame.mixer.music.load(f"songs/Onoken - Sagashi Mono/{self.song_general_info['song_filename']}")
         pygame.mixer.music.set_volume(0.05)
         pygame.mixer.music.play(start=delay)
+
+        # vv temp
+        songtemp = pygame.mixer.Sound(f"songs/Onoken - Sagashi Mono/{self.song_general_info['song_filename']}")
+        self.song_length = songtemp.get_length()
+        
         self.song_start_time = pygame.time.get_ticks()      # need to check current song progress
         self.song_started = True                            # indicates if song started
 
@@ -156,6 +162,7 @@ class Game2(States):
 
             self.update_side_sounds(current_time)
 
+        self.debug.update(current_time)
         self.draw(screen)
 
     def update_side_sounds(self, current_time):
@@ -236,6 +243,7 @@ class Game2(States):
         self.center_indicator.draw(screen)
         self.key_indicators.draw(screen)
         self.note_catcher.draw(screen)
+        self.debug.draw(screen)
 
     def sprite_assign(self, screen):
         self.note_lane = pygame.sprite.GroupSingle(NoteLane(screen))
@@ -251,3 +259,5 @@ class Game2(States):
         self.center_background = pygame.sprite.GroupSingle(CenterBackground(self.center_indicator.sprite.rect,
                                                                             self.bg_color))
         self.notes = pygame.sprite.Group()
+
+        self.debug = pygame.sprite.GroupSingle(DebugInfo(self.song_length))

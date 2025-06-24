@@ -23,8 +23,8 @@ class Button(pygame.sprite.Sprite):
         self.sign_surf = self.font.render("> ", True, self.color)
         self.text_surf = self.font.render(self.text, True, self.color)
         self.button_surf = pygame.Surface(((self.sign_surf.get_width() + self.text_surf.get_width()), self.text_surf.get_height()))
-        self.button_surf.fill("#0D1321") # temporary transparent bg fix
         self.button_surf.blit(self.text_surf, (self.sign_surf.get_width(), 0))
+        self.button_surf.set_colorkey("#000000")
 
         self.image = self.button_surf
         self.rect = self.image.get_rect(topleft = pos)
