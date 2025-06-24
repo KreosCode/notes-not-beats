@@ -20,12 +20,14 @@ class Game2(States):
         # maybe move all following part in the startup?
 
         self.bg_color = "#010203"
-        self.sprite_assigned = False                    # indicates if sprite_assign() is executed
+        self.sprite_assigned = False                   # indicates if sprite_assign() is executed
 
         # game constants
-        self.APPROACH_TIME = 2000                       # time notes are visible before hitting (ms)
-        self.DISTANCE = 440                             # distance between screen edge and catcher (same for all sides)
+        self.APPROACH_TIME = 2000                      # time notes are visible before hitting (ms)
+        self.DISTANCE = 440                            # distance between screen edge and catcher (same for all sides)
         self.REMOVE_DELAY = 50                         # time after hit to remove note (ms)
+
+        # hit detect settings
 
         self.keybinds = {
             "left": pygame.K_a,
@@ -117,8 +119,16 @@ class Game2(States):
 
     def get_event(self, event):
         if event.type == pygame.KEYDOWN:
+           # return to menu
            if event.key == pygame.K_SPACE:
+               self.next = "menu"
                self.done = True
+
+           # skip song and show results
+           if self.song_started:
+               if event.key == pygame.K_n:
+                   self.next = "result"
+                   self.done = True
 
            # changing key_indicator sprite if
            # corresponding key is being pressed
@@ -156,13 +166,13 @@ class Game2(States):
             self.sprite_assigned = True
         
         if self.song_started:
-            current_time = pygame.time.get_ticks() - self.song_start_time
-            self.spawn_notes(current_time)                                                    # spawn new notes
-            self.update_notes(dt, current_time)                                               # update spawned notes
+            self.current_time = pygame.time.get_ticks() - self.song_start_time
+            self.spawn_notes(self.current_time)                                                    # spawn new notes
+            self.update_notes(dt, self.current_time)                                               # update spawned notes
 
-            self.update_side_sounds(current_time)
+            self.update_side_sounds(self.current_time)
 
-        self.debug.update(current_time)
+        self.debug.update(self.current_time)
         self.draw(screen)
 
     def update_side_sounds(self, current_time):
