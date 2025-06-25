@@ -17,8 +17,6 @@ class Game2(States):
         super().__init__()
         self.next = "menu"
 
-        # maybe move all following part in the startup?
-
         self.bg_color = "#010203"
         self.sprite_assigned = False                   # indicates if sprite_assign() is executed
 

@@ -15,7 +15,7 @@ class NAME(States):
 
     def get_event(self, event):
         if pygame.event == event:
-            
+            pass
 
     def draw(self, screen):
         screen.fill("#000000")
