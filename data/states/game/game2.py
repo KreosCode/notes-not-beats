@@ -128,6 +128,7 @@ class Game2(States):
         pygame.mixer.music.stop()
         self.unspawned_notes.clear()
         self.notes.empty()
+        self.sprite_assigned = False
         self.song_started = False
 
         # transfering all combo, acc results to the file in 'states' folder
