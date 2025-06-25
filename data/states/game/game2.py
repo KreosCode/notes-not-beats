@@ -25,9 +25,13 @@ class Game2(States):
         # game constants
         self.APPROACH_TIME = 2000                      # time notes are visible before hitting (ms)
         self.DISTANCE = 440                            # distance between screen edge and catcher (same for all sides)
-        self.REMOVE_DELAY = 50                         # time after hit to remove note (ms)
+        self.REMOVE_DELAY = 200                        # time after hit to remove note (ms)
 
         # hit detect settings
+        self.HIT_WINDOW_PERFECT = 50    # +- 50ms for perfect
+        self.HIT_WINDOW_GOOD = 100      # +- 100ms for good
+        self.HIT_WINDOW_OK = 150        # += 150ms for ok
+        self.HIT_WINDOW_MISS = 200      # += 200ms for miss
 
         self.keybinds = {
             "left": pygame.K_a,
@@ -47,6 +51,16 @@ class Game2(States):
         self.default_sound = None
 
     def startup(self):
+        self.score = 0
+        self.current_combo = 0
+        self.max_combo = 0
+        self.scores_count = {
+            "PERFECT": 0,
+            "GOOD": 0,
+            "OK": 0,
+            "MISS": 0
+        }
+
         # vvv Temporary part (parsing)
         path = "songs/Onoken - Sagashi Mono/sagashi_mono.nnb"
         self.song_general_info = config_loader.option_load(path, False)["[General]"]
@@ -66,7 +80,6 @@ class Game2(States):
         # vv temp
         songtemp = pygame.mixer.Sound(f"songs/Onoken - Sagashi Mono/{self.song_general_info['song_filename']}")
         self.song_length = songtemp.get_length()
-        
         self.song_start_time = pygame.time.get_ticks()      # need to check current song progress
         self.song_started = True                            # indicates if song started
 
@@ -117,6 +130,13 @@ class Game2(States):
         self.notes.empty()
         self.song_started = False
 
+        # transfering all combo, acc results to the file in 'states' folder
+        with open("data/states/result/result.txt", encoding="utf-8", mode="w") as f:
+            for key, value in self.scores_count.items():
+                f.write(f"{key}: {value}\n")
+            f.write(f"score: {self.score}\n")
+            f.write(f"max_combo: {self.max_combo}\n")
+
     def get_event(self, event):
         if event.type == pygame.KEYDOWN:
            # return to menu
@@ -140,6 +160,9 @@ class Game2(States):
                         
                     self.play_sound_for_side(action)
 
+                    if self.song_started:
+                        self.check_hit_for_side(action)
+
         if event.type == pygame.KEYUP:
            # changing key_indicator sprite if
            # corresponding key is being unpressed
@@ -157,6 +180,48 @@ class Game2(States):
             self.sound_cache[sound_name].play()
         elif self.default_sound:
             self.default_sound.play()
+
+    def check_hit_for_side(self, side):
+        current_time = pygame.time.get_ticks() - self.song_start_time
+        best_note = None        # closest to catcher note
+        best_diff = 99999999
+        hit_detected = False
+
+        # finding the closest to the catcher note on current side
+        for note in self.notes.sprites():
+            if note.side == side:
+                # time_diff can be negative value
+                time_diff = current_time - note.end_timing1
+                abs_diff = abs(time_diff)
+                
+                if abs_diff < best_diff:
+                    best_note = note
+                    best_diff = abs_diff
+        
+        # if note in the hit window
+        if best_note and best_diff <= self.HIT_WINDOW_MISS:
+            # accuracy based on timing
+            if best_diff <= self.HIT_WINDOW_PERFECT:
+                self.score += 300
+                self.scores_count["PERFECT"] += 1
+                hit_detected = True
+            elif best_diff <= self.HIT_WINDOW_GOOD:
+                self.score += 100
+                self.scores_count["GOOD"] += 1
+                hit_detected = True
+            elif best_diff <= self.HIT_WINDOW_OK:
+                self.score += 50
+                self.scores_count["OK"] += 1
+                hit_detected = True
+            else:
+                self.scores_count["MISS"] += 1
+                self.current_combo = 0
+        
+        # remove note if hit was successfull
+        if hit_detected:
+            best_note.kill()
+            self.current_combo += 1
+            self.max_combo = max(self.max_combo, self.current_combo)
 
     def update(self, screen, dt):
         screen.fill(self.bg_color)          # updating background

@@ -1,0 +1,6 @@
+PERFECT: 104
+GOOD: 25
+OK: 11
+MISS: 4
+score: 34250
+max_combo: 77
