@@ -217,6 +217,10 @@ class Game2(States):
             else:
                 self.scores_count["MISS"] += 1
                 self.current_combo = 0
+        else:
+            # if note skipped (no key pressed)
+            self.scores_count["MISS"] += 1
+            self.current_combo = 0
         
         # remove note if hit was successfull
         if hit_detected:

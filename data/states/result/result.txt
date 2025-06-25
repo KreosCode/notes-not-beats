@@ -1,6 +1,6 @@
 PERFECT: 0
 GOOD: 0
-OK: 0
-MISS: 0
-score: 0
-max_combo: 0
+OK: 2
+MISS: 8
+score: 100
+max_combo: 2
